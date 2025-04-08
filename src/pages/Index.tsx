@@ -92,6 +92,20 @@ const Index = () => {
             repeatType: "reverse"
           }}
         />
+        
+        {/* Background image - top section */}
+        <motion.div 
+          className="absolute top-0 right-0 w-full h-3/4 opacity-10 bg-cover bg-center"
+          style={{ 
+            backgroundImage: "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb')", 
+            backgroundBlendMode: "overlay",
+            mixBlendMode: "overlay"
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.05 }}
+          transition={{ duration: 2 }}
+        />
+        
         <motion.div 
           className="absolute top-3/4 -right-1/4 w-1/2 h-1/2 bg-filebrowser/5 rounded-full blur-3xl opacity-30"
           animate={{ 
@@ -139,6 +153,19 @@ const Index = () => {
           }}
         />
         
+        {/* Background image - bottom section */}
+        <motion.div 
+          className="absolute bottom-0 left-0 w-full h-1/2 opacity-10 bg-cover bg-bottom"
+          style={{ 
+            backgroundImage: "url('https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7')", 
+            backgroundBlendMode: "overlay",
+            mixBlendMode: "overlay"
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.07 }}
+          transition={{ duration: 2, delay: 0.5 }}
+        />
+        
         {/* Additional fluid floating elements */}
         <motion.div 
           className="absolute top-[35%] left-[60%] w-40 h-40 rounded-full bg-openweb/8 blur-3xl opacity-30"
@@ -153,6 +180,29 @@ const Index = () => {
             repeat: Infinity,
             repeatType: "reverse",
             delay: 7
+          }}
+        />
+        
+        {/* Digital abstract elements */}
+        <motion.div 
+          className="absolute top-1/3 right-1/3 opacity-20"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "300px",
+            height: "300px",
+            mixBlendMode: "overlay",
+            filter: "hue-rotate(140deg)"
+          }}
+          animate={{
+            opacity: [0.1, 0.15, 0.1],
+            filter: ["hue-rotate(140deg)", "hue-rotate(200deg)", "hue-rotate(140deg)"]
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: "reverse"
           }}
         />
       </div>
@@ -199,19 +249,18 @@ const Index = () => {
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% 100%",
             }}
-            animate={{
-              backgroundPosition: ["0% center", "100% center", "0% center"],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
           >
             Quick Access
           </motion.h2>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+          <motion.div 
+            className="grid grid-cols-2 sm:grid-cols-3 gap-5"
+            style={{
+              backgroundImage: "radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 40%)",
+              backgroundSize: "120% 120%",
+              backgroundPosition: "center"
+            }}
+          >
             {services.map((service, index) => (
               <motion.a 
                 key={`quick-${service.title}`}
@@ -259,7 +308,7 @@ const Index = () => {
                 >{service.title}</motion.span>
               </motion.a>
             ))}
-          </div>
+          </motion.div>
         </div>
       </motion.div>
 

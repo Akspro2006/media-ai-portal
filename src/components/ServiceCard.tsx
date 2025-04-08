@@ -13,6 +13,18 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon, color, delay = 0 }) => {
+  // Each service gets a matching background image based on its purpose
+  const getBackgroundImage = () => {
+    if (title === "Jellyfin") {
+      return "url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
+    } else if (title === "OpenWeb UI") {
+      return "url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
+    } else if (title === "File Browser") {
+      return "url('https://images.unsplash.com/photo-1483058712412-4245e9b90334?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
+    }
+    return "";
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -23,15 +35,16 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon
         transition: { duration: 0.3, ease: "easeOut" } 
       }}
       whileTap={{ scale: 0.98 }}
+      className="perspective-container"
     >
-      <a 
+      <motion.a 
         href={url} 
         target="_blank" 
         rel="noopener noreferrer"
         className={cn(
           "group glass-card rounded-xl flex flex-col items-center text-center h-full",
           "border-l-4 shadow-lg transition-all duration-300 relative overflow-hidden backdrop-blur-lg",
-          "hover:shadow-xl hover:bg-black/50"
+          "hover:shadow-xl hover:bg-black/50 card-3d"
         )}
         style={{ borderLeftColor: color }}
       >
@@ -45,8 +58,30 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon
             transition={{ duration: 0.5 }}
           />
         </div>
+        
+        {/* Background image specific to each service */}
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-10 transition-opacity duration-1000"
+          style={{ backgroundImage: getBackgroundImage() }}
+        />
 
         <div className="relative z-10 p-6">
+          {/* Decorative element */}
+          <motion.div 
+            className="absolute top-3 right-3 w-12 h-12 opacity-10 organic-shape-alt"
+            style={{ backgroundColor: color }}
+            animate={{
+              scale: [1, 1.1, 1],
+              rotate: [0, 5, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              repeatType: "reverse",
+              delay: delay * 0.3,
+            }}
+          />
+        
           <motion.div 
             className={cn("service-icon text-white/90")}
             whileHover={{ rotate: 5, scale: 1.1 }}
@@ -110,7 +145,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon
             >→</motion.span>
           </motion.div>
         </div>
-      </a>
+      </motion.a>
     </motion.div>
   );
 };

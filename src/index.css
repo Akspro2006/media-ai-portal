@@ -70,6 +70,18 @@
   @apply w-14 h-14 mb-4 transition-all duration-500;
 }
 
+/* Star field animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* 3D transformation animations */
+@keyframes float-3d {
+  0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+  50% { transform: translateY(-15px) rotateX(10deg) rotateY(5deg); }
+}
+
 /* Custom animations */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -110,6 +122,10 @@
   animation: color-shift 8s ease-in-out infinite;
 }
 
+.animate-float-3d {
+  animation: float-3d 8s ease-in-out infinite;
+}
+
 /* Custom gradients */
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-white/90 to-white/60;
@@ -140,4 +156,46 @@
 .blur-backdrop {
   @apply backdrop-blur-xl bg-black/20 border border-white/10;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* 3D perspective effects */
+.perspective-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.card-3d {
+  transform: translateZ(0);
+  transition: transform 0.5s ease-out;
+}
+
+.card-3d:hover {
+  transform: translateZ(20px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Media element styles */
+.media-element {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.media-element::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+  pointer-events: none;
+}
+
+/* Organic shapes */
+.organic-shape {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.organic-shape-alt {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
 }
