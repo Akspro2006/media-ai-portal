@@ -14,10 +14,13 @@ const Footer: React.FC = () => {
       transition={{ duration: 0.5, delay: 0.8 }}
     >
       <motion.div 
-        className="absolute left-1/2 -translate-x-1/2 -top-12 w-24 h-[1px] bg-gradient-to-r from-transparent via-gray-500/30 to-transparent"
+        className="absolute left-1/2 -translate-x-1/2 -top-12 w-24 h-[1px]"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 0.8, delay: 1 }}
+        style={{
+          background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)"
+        }}
       />
       
       <motion.div
@@ -25,6 +28,10 @@ const Footer: React.FC = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1 }}
+        whileHover={{ 
+          color: "rgba(255,255,255,0.7)",
+          transition: { duration: 0.3 }
+        }}
       >
         <p>Made with</p>
         <motion.div
@@ -42,7 +49,14 @@ const Footer: React.FC = () => {
         <p>for your home server</p>
       </motion.div>
       
-      <p>© {currentYear} Home Server Dashboard</p>
+      <motion.p
+        whileHover={{ 
+          letterSpacing: "0.5px",
+          transition: { duration: 0.3 }
+        }}
+      >
+        © {currentYear} Home Server Dashboard
+      </motion.p>
     </motion.footer>
   );
 };

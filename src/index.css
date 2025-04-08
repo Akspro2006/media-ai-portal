@@ -42,12 +42,16 @@
     @apply border-border;
   }
 
+  html {
+    @apply overflow-x-hidden scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     background-color: #0c0c0f;
     background-image: 
-      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.001) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.002) 0%, transparent 60%);
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.002) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.003) 0%, transparent 60%);
     background-size: 100px 100px, 120px 120px;
     background-position: 0 0;
   }
@@ -58,12 +62,12 @@
 }
 
 .glass-card {
-  @apply backdrop-blur-md bg-black/30 border border-white/10 transition-all duration-300;
+  @apply backdrop-blur-md bg-black/30 border border-white/10 transition-all duration-500;
   box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.3);
 }
 
 .service-icon {
-  @apply w-14 h-14 mb-4 transition-all duration-300;
+  @apply w-14 h-14 mb-4 transition-all duration-500;
 }
 
 /* Custom animations */
@@ -77,12 +81,33 @@
   50% { opacity: 0.4; filter: blur(16px); }
 }
 
+@keyframes soft-wave {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-5px) translateX(5px); }
+  50% { transform: translateY(0) translateX(10px); }
+  75% { transform: translateY(5px) translateX(5px); }
+}
+
+@keyframes color-shift {
+  0% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(15deg); }
+  100% { filter: hue-rotate(0deg); }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
 .animate-pulse-soft {
   animation: pulse-glow 5s ease-in-out infinite;
+}
+
+.animate-soft-wave {
+  animation: soft-wave 10s ease-in-out infinite;
+}
+
+.animate-color-shift {
+  animation: color-shift 8s ease-in-out infinite;
 }
 
 /* Custom gradients */
@@ -105,4 +130,14 @@
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+}
+
+/* Fluid element transitions */
+.fluid-transition {
+  @apply transition-all duration-500 ease-in-out;
+}
+
+.blur-backdrop {
+  @apply backdrop-blur-xl bg-black/20 border border-white/10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
