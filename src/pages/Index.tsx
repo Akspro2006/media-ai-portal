@@ -35,17 +35,68 @@ const Index = () => {
     }
   ];
 
+  // Animation variants for staggered child animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.4
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col px-4 sm:px-6 py-12 max-w-6xl mx-auto">
+    <div className="min-h-screen flex flex-col px-4 sm:px-6 py-8 max-w-6xl mx-auto relative overflow-hidden">
+      {/* Abstract background elements */}
+      <div className="absolute inset-0 -z-20 overflow-hidden">
+        <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-jellyfin/5 rounded-full blur-3xl opacity-40" />
+        <div className="absolute top-3/4 -right-1/4 w-1/2 h-1/2 bg-filebrowser/5 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-0 left-0 w-screen h-1/2 bg-gradient-to-t from-black/30 to-transparent -z-10" />
+        
+        <motion.div 
+          className="absolute top-[20%] left-[30%] w-64 h-64 rounded-full bg-openweb/10 blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        />
+        
+        <motion.div 
+          className="absolute top-[60%] right-[20%] w-80 h-80 rounded-full bg-jellyfin/5 blur-3xl"
+          animate={{ 
+            scale: [1, 1.1, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{ 
+            duration: 10, 
+            repeat: Infinity,
+            repeatType: "reverse",
+            delay: 2
+          }}
+        />
+      </div>
+      
       <Header />
       
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative mb-12"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="relative mb-16"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <ServiceCard
               key={service.title}
@@ -58,42 +109,53 @@ const Index = () => {
             />
           ))}
         </div>
-        
-        {/* Background gradient effects */}
-        <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-3xl max-h-64">
-          <div className="absolute top-0 left-0 w-1/3 h-full bg-jellyfin/10 rounded-full blur-3xl opacity-30 animate-pulse-soft" />
-          <div className="absolute top-0 left-1/3 w-1/3 h-full bg-openweb/10 rounded-full blur-3xl opacity-30 animate-pulse-soft" 
-            style={{ animationDelay: '1s' }}
-          />
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-filebrowser/10 rounded-full blur-3xl opacity-30 animate-pulse-soft"
-            style={{ animationDelay: '2s' }}
-          />
-        </div>
       </motion.div>
       
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
+        transition={{ duration: 0.7, delay: 0.6 }}
         className="mt-auto"
       >
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Quick Access</h2>
-          <div className="grid grid-cols-3 gap-4">
-            {services.map((service) => (
-              <a 
+          <motion.h2 
+            className="text-2xl font-bold mb-5 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            Quick Access
+          </motion.h2>
+          
+          <div className="grid grid-cols-3 gap-5">
+            {services.map((service, index) => (
+              <motion.a 
                 key={`quick-${service.title}`}
                 href={service.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass-card p-4 rounded-lg flex flex-col items-center hover:scale-105 transition-transform duration-200"
+                className="glass-card p-5 rounded-lg flex flex-col items-center transition-all duration-300"
                 style={{ borderBottom: `2px solid ${service.color}` }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: `0 10px 25px -5px ${service.color}33`,
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="w-8 h-8 mb-2 text-white/90">
+                <motion.div 
+                  className="w-8 h-8 mb-3 text-white/90"
+                  style={{ color: service.color }}
+                  whileHover={{ rotate: 5, scale: 1.1 }}
+                >
                   {service.icon}
-                </div>
-                <span className="text-sm">{service.title}</span>
-              </a>
+                </motion.div>
+                <span className="text-sm font-medium">{service.title}</span>
+              </motion.a>
             ))}
           </div>
         </div>
