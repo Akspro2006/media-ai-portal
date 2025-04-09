@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Home, Globe } from 'lucide-react'; // Add this import for the icons
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundElements from '@/components/BackgroundElements';
