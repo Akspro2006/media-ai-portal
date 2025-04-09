@@ -1,6 +1,9 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Heart, Server } from 'lucide-react';
+import FooterScene from './3d/FooterScene';
+
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   return <motion.footer className="mt-24 mb-6 text-center text-gray-500 text-sm relative" initial={{
@@ -22,17 +25,8 @@ const Footer: React.FC = () => {
       background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)"
     }} />
       
-      <motion.div className="absolute left-1/2 -translate-x-1/2 -top-24 -z-10 opacity-10" animate={{
-      opacity: [0.05, 0.1, 0.05],
-      scale: [0.95, 1, 0.95],
-      rotate: [0, 1, 0]
-    }} transition={{
-      duration: 8,
-      repeat: Infinity,
-      repeatType: "reverse"
-    }}>
-        <Server className="w-16 h-16" />
-      </motion.div>
+      {/* Replace static Server icon with 3D scene */}
+      <FooterScene />
       
       <motion.div className="flex items-center justify-center mb-2 space-x-2" initial={{
       opacity: 0,
@@ -91,4 +85,5 @@ const Footer: React.FC = () => {
       </div>
     </motion.footer>;
 };
+
 export default Footer;

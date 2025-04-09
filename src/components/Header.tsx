@@ -1,6 +1,9 @@
+
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import HeaderScene from './3d/HeaderScene';
+
 const Header: React.FC = () => {
   const starFieldRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -31,19 +34,24 @@ const Header: React.FC = () => {
       container.appendChild(star);
     }
   }, []);
-  return <motion.div className="relative flex justify-center items-center mb-12 mt-8" initial={{
-    opacity: 0,
-    y: -20
-  }} animate={{
-    opacity: 1,
-    y: 0
-  }} transition={{
-    duration: 0.7
-  }}>
+  
+  return (
+    <motion.div className="relative flex justify-center items-center mb-12 mt-8 min-h-[40vh]" initial={{
+      opacity: 0,
+      y: -20
+    }} animate={{
+      opacity: 1,
+      y: 0
+    }} transition={{
+      duration: 0.7
+    }}>
       {/* Star field effect */}
       <div ref={starFieldRef} className="absolute inset-0 -z-10 overflow-hidden">
         {/* Stars will be added here via JavaScript */}
       </div>
+      
+      {/* 3D Scene */}
+      <HeaderScene />
     
       <div className="absolute inset-0 -z-10">
         <motion.div className="absolute top-0 left-1/4 w-32 h-32 bg-jellyfin/20 rounded-full blur-3xl" animate={{
@@ -177,4 +185,5 @@ const Header: React.FC = () => {
     }} />
     </motion.div>;
 };
+
 export default Header;
