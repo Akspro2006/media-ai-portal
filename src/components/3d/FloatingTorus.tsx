@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Color } from 'three';
+import { Color, Mesh } from 'three';
 
 interface FloatingTorusProps {
   position?: [number, number, number];
@@ -18,7 +18,7 @@ const FloatingTorus: React.FC<FloatingTorusProps> = ({
   rotationSpeed = 0.005,
   wireframe = true
 }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<Mesh>(null);
   
   useFrame(({ clock }) => {
     if (meshRef.current) {

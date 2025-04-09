@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Edges } from '@react-three/drei';
-import { Color } from 'three';
+import { Color, Mesh } from 'three';
 
 interface FloatingCubeProps {
   position?: [number, number, number];
@@ -19,7 +19,7 @@ const FloatingCube: React.FC<FloatingCubeProps> = ({
   rotationSpeed = 0.01,
   wireframe = false
 }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<Mesh>(null);
   
   useFrame(({ clock }) => {
     if (meshRef.current) {

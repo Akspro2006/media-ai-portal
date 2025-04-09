@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Color } from 'three';
+import { Color, Mesh } from 'three';
 
 interface FloatingSphereProps {
   position?: [number, number, number];
@@ -18,7 +18,7 @@ const FloatingSphere: React.FC<FloatingSphereProps> = ({
   rotationSpeed = 0.007,
   wireframe = false
 }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<Mesh>(null);
   
   useFrame(({ clock }) => {
     if (meshRef.current) {

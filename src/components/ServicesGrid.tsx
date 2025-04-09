@@ -20,7 +20,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ controls }) => {
       delay: 1
     },
     {
-      title: "OpenWeb UI",
+      title: "Deepseek",
       description: "Access and manage AI models through an intuitive web interface",
       url: "http://192.168.29.77:3000",
       icon: <Layers className="w-full h-full" />,
@@ -28,7 +28,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ controls }) => {
       delay: 2
     },
     {
-      title: "File Browser",
+      title: "Cloud Storage",
       description: "Browse, upload, and manage files on your home server",
       url: "http://192.168.29.77:8080",
       icon: <FileSearch className="w-full h-full" />,
