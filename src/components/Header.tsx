@@ -183,7 +183,8 @@ const Header: React.FC = () => {
       borderRadius: "60% 40% 30% 70% / 50% 60% 40% 50%",
       filter: "blur(1px) hue-rotate(40deg)"
     }} />
-    </motion.div>;
+    </motion.div>
+  );
 };
 
 export default Header;
