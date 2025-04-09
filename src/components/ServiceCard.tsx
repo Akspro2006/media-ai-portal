@@ -2,24 +2,34 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { Home, Globe } from "lucide-react";
 
 interface ServiceCardProps {
   title: string;
   description: string;
   url: string;
+  awayUrl?: string;
   icon: React.ReactNode;
   color: string;
   delay?: number;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon, color, delay = 0 }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ 
+  title, 
+  description, 
+  url, 
+  awayUrl, 
+  icon, 
+  color, 
+  delay = 0 
+}) => {
   // Each service gets a matching background image based on its purpose
   const getBackgroundImage = () => {
     if (title === "Jellyfin") {
       return "url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
-    } else if (title === "OpenWeb UI") {
+    } else if (title === "Deepseek") {
       return "url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
-    } else if (title === "File Browser") {
+    } else if (title === "Cloud Storage") {
       return "url('https://images.unsplash.com/photo-1483058712412-4245e9b90334?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
     }
     return "";
@@ -37,10 +47,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon
       whileTap={{ scale: 0.98 }}
       className="perspective-container"
     >
-      <motion.a 
-        href={url} 
-        target="_blank" 
-        rel="noopener noreferrer"
+      <motion.div 
         className={cn(
           "group glass-card rounded-xl flex flex-col items-center text-center h-full",
           "border-l-4 shadow-lg transition-all duration-300 relative overflow-hidden backdrop-blur-lg",
@@ -121,31 +128,49 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, url, icon
             {description}
           </p>
           
-          <motion.div 
-            className={cn(
-              "py-2 px-5 rounded-full text-sm font-medium flex items-center justify-center mx-auto",
-              "backdrop-blur-md bg-black/30 hover:bg-black/50 transition-all duration-300",
-              "border border-white/10 hover:border-white/20",
-            )}
-            style={{ width: 'fit-content' }}
-            whileHover={{ 
-              scale: 1.05, 
-              boxShadow: `0 0 15px 2px ${color}33` 
-            }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span className="mr-1">Launch</span>
-            <motion.span 
-              initial={{ opacity: 0, x: -10 }}
+          <div className="flex gap-3 justify-center">
+            <motion.a 
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "py-2 px-4 rounded-full text-sm font-medium flex items-center justify-center",
+                "backdrop-blur-md bg-black/30 hover:bg-black/50 transition-all duration-300",
+                "border border-white/10 hover:border-white/20",
+              )}
               whileHover={{ 
-                opacity: 1, 
-                x: 0,
-                transition: { duration: 0.3 }
+                scale: 1.05, 
+                boxShadow: `0 0 15px 2px ${color}33` 
               }}
-            >→</motion.span>
-          </motion.div>
+              whileTap={{ scale: 0.98 }}
+            >
+              <Home className="w-4 h-4 mr-2" />
+              <span>Home</span>
+            </motion.a>
+            
+            {awayUrl && (
+              <motion.a 
+                href={awayUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "py-2 px-4 rounded-full text-sm font-medium flex items-center justify-center",
+                  "backdrop-blur-md bg-black/30 hover:bg-black/50 transition-all duration-300",
+                  "border border-white/10 hover:border-white/20",
+                )}
+                whileHover={{ 
+                  scale: 1.05, 
+                  boxShadow: `0 0 15px 2px ${color}33` 
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Globe className="w-4 h-4 mr-2" />
+                <span>Away</span>
+              </motion.a>
+            )}
+          </div>
         </div>
-      </motion.a>
+      </motion.div>
     </motion.div>
   );
 };
