@@ -1,10 +1,15 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Film, FileSearch, Layers, Home, Globe } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 const QuickAccess: React.FC = () => {
+  const { scrollY } = useScroll();
+  
+  // Create scroll-based animations
+  const quickAccessOpacity = useTransform(scrollY, [400, 600], [0.8, 1]);
+  const quickAccessScale = useTransform(scrollY, [400, 600], [0.98, 1.02]);
+  
   // Service configuration - same as in ServicesGrid to maintain functionality
   const services = [
     {
@@ -42,6 +47,10 @@ const QuickAccess: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.6 }}
       className="mt-auto"
+      style={{ 
+        opacity: quickAccessOpacity,
+        scale: quickAccessScale
+      }}
     >
       <div className="max-w-4xl mx-auto text-center">
         <motion.h2 
@@ -89,6 +98,15 @@ const QuickAccess: React.FC = () => {
                   transition: { duration: 0.3, ease: "easeOut" }
                 }}
                 whileTap={{ scale: 0.95 }}
+                whileInView={{
+                  y: [0, -5, 0],
+                  transition: {
+                    duration: 1.5,
+                    ease: "easeInOut",
+                    delay: index * 0.1,
+                    repeat: 0
+                  }
+                }}
               >
                 <div className="flex items-center justify-center mb-1">
                   <Home size={14} className="mr-1" style={{ color: service.color }} />
@@ -145,6 +163,15 @@ const QuickAccess: React.FC = () => {
                   transition: { duration: 0.3, ease: "easeOut" }
                 }}
                 whileTap={{ scale: 0.95 }}
+                whileInView={{
+                  y: [0, -5, 0],
+                  transition: {
+                    duration: 1.5,
+                    ease: "easeInOut",
+                    delay: index * 0.1 + 0.1,
+                    repeat: 0
+                  }
+                }}
               >
                 <div className="flex items-center justify-center mb-1">
                   <Globe size={14} className="mr-1" style={{ color: service.color }} />
@@ -168,7 +195,7 @@ const QuickAccess: React.FC = () => {
                     duration: 3,
                     repeat: Infinity,
                     repeatType: "reverse",
-                    delay: index * 0.5,
+                    delay: index * 0.5 + 0.2,
                   }}
                 >
                   {service.icon}

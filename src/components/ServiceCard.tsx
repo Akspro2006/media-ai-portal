@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Home, Globe } from "lucide-react";
 
 interface ServiceCardProps {
@@ -12,6 +12,7 @@ interface ServiceCardProps {
   icon: React.ReactNode;
   color: string;
   delay?: number;
+  index?: number;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ 
@@ -21,8 +22,25 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   awayUrl, 
   icon, 
   color, 
-  delay = 0 
+  delay = 0,
+  index = 0
 }) => {
+  const { scrollY } = useScroll();
+  
+  // Create scroll-based animations with different values per card index
+  // This creates a staggered effect when scrolling
+  const cardY = useTransform(
+    scrollY, 
+    [0, 200, 400], 
+    [0, index % 2 === 0 ? -15 : 15, 0]
+  );
+  
+  const iconScale = useTransform(
+    scrollY,
+    [100, 300, 500],
+    [1, index % 3 === 0 ? 1.2 : index % 3 === 1 ? 1.1 : 0.9, 1]
+  );
+
   // Each service gets a matching background image based on its purpose
   const getBackgroundImage = () => {
     if (title === "Jellyfin") {
@@ -46,6 +64,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       }}
       whileTap={{ scale: 0.98 }}
       className="perspective-container"
+      style={{ y: cardY }}
     >
       <motion.div 
         className={cn(
@@ -91,6 +110,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         
           <motion.div 
             className={cn("service-icon text-white/90")}
+            style={{ 
+              color,
+              scale: iconScale
+            }}
             whileHover={{ rotate: 5, scale: 1.1 }}
             animate={{ 
               y: [0, -5, 0],
@@ -101,7 +124,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               repeatType: "reverse",
               delay: delay * 0.3,
             }}
-            style={{ color }}
           >
             {icon}
           </motion.div>

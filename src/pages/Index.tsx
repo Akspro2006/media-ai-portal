@@ -1,6 +1,6 @@
 
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Home, Globe } from 'lucide-react'; // Add this import for the icons
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -11,6 +11,14 @@ import { useAnimationControls } from '@/hooks/use-animation-controls';
 
 const Index = () => {
   const controls = useAnimationControls();
+  const { scrollY } = useScroll();
+  const [scrolled, setScrolled] = useState(false);
+
+  // Create scroll-driven animations
+  const headerOpacity = useTransform(scrollY, [0, 100], [1, 0.95]);
+  const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
+  const serviceGridY = useTransform(scrollY, [0, 300], [0, 20]);
+  const quickAccessY = useTransform(scrollY, [300, 600], [0, -20]);
 
   useEffect(() => {
     // Start animations after a short delay
@@ -18,7 +26,21 @@ const Index = () => {
       controls.start("show");
     }, 500);
 
-    return () => clearTimeout(timer);
+    // Add scroll listener to track when page has been scrolled
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [controls]);
 
   return (
@@ -28,9 +50,11 @@ const Index = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <BackgroundElements />
+      <BackgroundElements scrolled={scrolled} />
       
-      <Header />
+      <motion.div style={{ opacity: headerOpacity, scale: headerScale }}>
+        <Header />
+      </motion.div>
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -47,13 +71,19 @@ const Index = () => {
         </p>
       </motion.div>
       
-      <ServicesGrid controls={controls} />
+      <motion.div style={{ y: serviceGridY }}>
+        <ServicesGrid controls={controls} />
+      </motion.div>
       
       <motion.div 
         className="glass-card p-8 rounded-2xl mb-12 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.7 }}
+        style={{ 
+          y: useTransform(scrollY, [100, 400], [0, 15]),
+          scale: useTransform(scrollY, [100, 400], [1, 1.02])
+        }}
       >
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0 bg-gradient-to-br from-[#00A4DC]/20 via-[#10B981]/20 to-[#F97316]/20" />
@@ -89,7 +119,9 @@ const Index = () => {
         </div>
       </motion.div>
       
-      <QuickAccess />
+      <motion.div style={{ y: quickAccessY }}>
+        <QuickAccess />
+      </motion.div>
 
       <Footer />
     </motion.div>

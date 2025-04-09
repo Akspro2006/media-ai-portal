@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { motion, AnimationControls } from 'framer-motion';
+import { motion, AnimationControls, useScroll, useTransform } from 'framer-motion';
 import ServiceCard from '@/components/ServiceCard';
 import { Film, FileSearch, Layers } from 'lucide-react';
 
@@ -9,6 +9,9 @@ interface ServicesGridProps {
 }
 
 const ServicesGrid: React.FC<ServicesGridProps> = ({ controls }) => {
+  const { scrollY } = useScroll();
+  const gridScale = useTransform(scrollY, [0, 300], [1, 1.03]);
+  
   // Service configuration
   const services = [
     {
@@ -58,6 +61,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ controls }) => {
       initial="hidden"
       animate={controls}
       className="relative mb-16 z-10"
+      style={{ scale: gridScale }}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {services.map((service, index) => (
@@ -70,6 +74,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ controls }) => {
             icon={service.icon}
             color={service.color}
             delay={service.delay}
+            index={index}
           />
         ))}
       </div>
