@@ -10,6 +10,20 @@ const QuickAccess: React.FC = () => {
   const quickAccessOpacity = useTransform(scrollY, [400, 600], [0.8, 1]);
   const quickAccessScale = useTransform(scrollY, [400, 600], [0.98, 1.02]);
   
+  // Add bouncing effects based on scroll
+  const iconBounce = useTransform(
+    scrollY,
+    [300, 400, 500, 600, 700],
+    [0, -8, 0, -5, 0]
+  );
+  
+  // Home/Away icon bounce
+  const buttonIconBounce = useTransform(
+    scrollY,
+    [350, 450, 550, 650],
+    [0, -4, 0, -3]
+  );
+  
   // Service configuration - same as in ServicesGrid to maintain functionality
   const services = [
     {
@@ -108,7 +122,7 @@ const QuickAccess: React.FC = () => {
                   }
                 }}
               >
-                <div className="flex items-center justify-center mb-1">
+                <motion.div className="flex items-center justify-center mb-1" style={{ y: buttonIconBounce }}>
                   <Home size={14} className="mr-1" style={{ color: service.color }} />
                   <motion.span 
                     className="text-xs font-medium"
@@ -117,11 +131,14 @@ const QuickAccess: React.FC = () => {
                       transition: { duration: 0.2 }
                     }}
                   >Home</motion.span>
-                </div>
+                </motion.div>
                 
                 <motion.div 
                   className="w-6 h-6 mb-1 text-white/90"
-                  style={{ color: service.color }}
+                  style={{ 
+                    color: service.color,
+                    y: iconBounce // Add bounce effect on scroll
+                  }}
                   whileHover={{ rotate: 10, scale: 1.1 }}
                   animate={{ 
                     y: [0, -3, 0],
@@ -173,7 +190,7 @@ const QuickAccess: React.FC = () => {
                   }
                 }}
               >
-                <div className="flex items-center justify-center mb-1">
+                <motion.div className="flex items-center justify-center mb-1" style={{ y: buttonIconBounce }}>
                   <Globe size={14} className="mr-1" style={{ color: service.color }} />
                   <motion.span 
                     className="text-xs font-medium"
@@ -182,11 +199,14 @@ const QuickAccess: React.FC = () => {
                       transition: { duration: 0.2 }
                     }}
                   >Away</motion.span>
-                </div>
+                </motion.div>
                 
                 <motion.div 
                   className="w-6 h-6 mb-1 text-white/90"
-                  style={{ color: service.color }}
+                  style={{ 
+                    color: service.color,
+                    y: iconBounce // Add bounce effect on scroll
+                  }}
                   whileHover={{ rotate: 10, scale: 1.1 }}
                   animate={{ 
                     y: [0, -3, 0],

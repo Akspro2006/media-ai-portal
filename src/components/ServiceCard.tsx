@@ -41,6 +41,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     [1, index % 3 === 0 ? 1.2 : index % 3 === 1 ? 1.1 : 0.9, 1]
   );
 
+  // Enhanced bounce animation for service icon
+  const iconBounce = useTransform(
+    scrollY,
+    [100, 200, 300, 400, 500],
+    [0, -10, 0, -8, 0]
+  );
+
+  // Bounce animation for the Home and Away icons
+  const buttonIconBounce = useTransform(
+    scrollY,
+    [150, 250, 350, 450, 550],
+    [0, -5, 0, -4, 0]
+  );
+
   // Each service gets a matching background image based on its purpose
   const getBackgroundImage = () => {
     if (title === "Jellyfin") {
@@ -112,7 +126,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             className={cn("service-icon text-white/90")}
             style={{ 
               color,
-              scale: iconScale
+              scale: iconScale,
+              y: iconBounce // Added bounce effect based on scroll
             }}
             whileHover={{ rotate: 5, scale: 1.1 }}
             animate={{ 
@@ -166,7 +181,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               }}
               whileTap={{ scale: 0.98 }}
             >
-              <Home className="w-4 h-4 mr-2" />
+              <motion.div style={{ y: buttonIconBounce }}>
+                <Home className="w-4 h-4 mr-2" />
+              </motion.div>
               <span>Home</span>
             </motion.a>
             
@@ -186,7 +203,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Globe className="w-4 h-4 mr-2" />
+                <motion.div style={{ y: buttonIconBounce }}>
+                  <Globe className="w-4 h-4 mr-2" />
+                </motion.div>
                 <span>Away</span>
               </motion.a>
             )}

@@ -16,6 +16,10 @@ const BackgroundElements: React.FC<BackgroundElementsProps> = ({ scrolled = fals
   const topGlowY = useTransform(scrollY, [0, 300], [0, -30]);
   const bottomGlowY = useTransform(scrollY, [0, 300], [0, 30]);
   
+  // Add bouncing effect on scroll
+  const rightGlowBounce = useTransform(scrollY, [0, 100, 200, 300, 400, 500], [0, -15, 0, -10, 0, -5]);
+  const leftGlowBounce = useTransform(scrollY, [0, 150, 250, 350, 450, 550], [0, 15, 0, 10, 0, 5]);
+  
   return (
     <>
       {/* 3D animated background */}
@@ -23,13 +27,17 @@ const BackgroundElements: React.FC<BackgroundElementsProps> = ({ scrolled = fals
         <BackgroundScene />
       </div>
       
-      {/* Gradient orbs that react to scroll */}
+      {/* Gradient orbs that react to scroll with bounce effect */}
       <motion.div 
         className="fixed -top-[30%] -right-[20%] w-[60%] h-[60%] rounded-full opacity-30 blur-3xl"
         style={{
           background: "radial-gradient(circle, rgba(0,164,220,0.2) 0%, rgba(0,0,0,0) 70%)",
           x: rightGlowX,
-          y: topGlowY,
+          y: useTransform(
+            scrollY, 
+            [0, 300], 
+            [topGlowY.get(), topGlowY.get() + rightGlowBounce.get()]
+          ),
           scale: useTransform(scrollY, [0, 300], [1, scrolled ? 1.2 : 1])
         }}
       />
@@ -39,7 +47,11 @@ const BackgroundElements: React.FC<BackgroundElementsProps> = ({ scrolled = fals
         style={{
           background: "radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(0,0,0,0) 70%)",
           x: leftGlowX,
-          y: bottomGlowY,
+          y: useTransform(
+            scrollY, 
+            [0, 300], 
+            [bottomGlowY.get(), bottomGlowY.get() + leftGlowBounce.get()]
+          ),
           scale: useTransform(scrollY, [0, 300], [1, scrolled ? 1.2 : 1])
         }}
       />
